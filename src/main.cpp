@@ -24,6 +24,7 @@ void on_center_button() {
  */
 void initialize() {
 	
+	
 	pros::lcd::initialize();
 	//hello
 	pros::lcd::set_text(1, "Hello PROS User!");
