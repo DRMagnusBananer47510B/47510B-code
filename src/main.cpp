@@ -46,6 +46,7 @@ public:
  */
 void initialize() {
 	
+	
 	pros::lcd::initialize();
 	//hello
 
