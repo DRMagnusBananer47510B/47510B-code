@@ -57,7 +57,7 @@
 #include "pros/rtos.h"
 #include "pros/screen.h"
 #include "pros/vision.h"
-
+#include "pid.hpp"
 #ifdef __cplusplus
 #include "pros/adi.hpp"
 #include "pros/ai_vision.hpp"
