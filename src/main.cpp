@@ -1,4 +1,6 @@
 #include "main.h"
+#include "opcontrol.h"
+#include "pros/misc.h"
 #include "pros/motors.hpp"
 
 /**
@@ -8,36 +10,14 @@
  * "I was pressed!" and nothing.
  */
 void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
+  static bool pressed = false;
+  pressed = !pressed;
+  if (pressed) {
+    pros::lcd::set_text(2, "I was pressed!");
+  } else {
+    pros::lcd::clear_line(2);
+  }
 }
-class PID{
-public:
-    double kp;
-    double ki;
-    double kd;
-    double integral;
-    double prevError;
-  PID(double p, double i, double d){
-     kp = p;
-     ki = i;
-     kd = d;
-     integral = 0;
-     prevError = 0;
-  }
-  double calculate(double target, double current){
-    double error = target - current;
-    integral += error;
-    double derivative = error - prevError;
-    prevError = error;
-    return (kp * error) + (ki * integral) + (kd * derivative);
-  }
-};
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -45,11 +25,9 @@ public:
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	
-	
-	pros::lcd::initialize();
-	//hello
 
+  pros::lcd::initialize();
+  // hello
 }
 
 /**
@@ -97,31 +75,36 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor intake(15);
-	pros::MotorGroup left_mg({1, 16, 19});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({-10, -5, -6});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
-	bool intaketoggle = false;
-	PID turnPID(2.5, 0.01, 0.1); // Example PID values for turning
-	while (true) {
-		
-		double lefty = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-		double righty = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		pros::lcd::print(0, "Intake On %d", intaketoggle);
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-			intaketoggle = !intaketoggle;
-			
-		}
-		if (intaketoggle) {
-			intake.move(127);
-		}
-		else {
-			intake.move(0);
-		}
-		
-		left_mg.move((lefty));    // Sets the speed of the left motor group to the value of the left joystick
-		right_mg.move((righty));  
-	// Sets the speed of the right motor group to
-		pros::delay(20);                               // Run for 20 ms then update
-	}
+  pros::Controller master(pros::E_CONTROLLER_MASTER);
+  pros::Motor intake(15);
+  pros::MotorGroup left_mg({1, 16, 19}); // Creates a motor group with forwards
+                                         // ports 1 & 3 and reversed port 2
+  pros::MotorGroup right_mg(
+      {-10, -5, -6}); // Creates a motor group with forwards port 5 and reversed
+                      // ports 4 & 6
+  bool intaketoggle = false;
+  // Example PID values for turning
+  while (true) {
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      turnToAngle(90);
+    };
+    double lefty = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+    double righty = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    pros::lcd::print(0, "Intake On %d", intaketoggle);
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      intaketoggle = !intaketoggle;
+    }
+    if (intaketoggle) {
+      intake.move(127);
+    } else {
+      intake.move(0);
+    }
+
+    left_mg.move((lefty)); // Sets the speed of the left motor group to the
+                           // value of the left joystick
+    right_mg.move((righty));
+    // Sets the speed of the right motor group to
+    pros::delay(20); // Run for 20 ms then update
+  }
 }
