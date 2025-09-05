@@ -1,4 +1,7 @@
 #include "main.h"
+#include "autons.hpp"
+#include "opcontrol.h"
+#include "pros/rtos.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -8,12 +11,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {1, 16, 19},     // Left Chassis Ports (negative port will reverse it!)
-    {-10, -5, -6},  // Right Chassis Ports (negative port will reverse it!)
+     {-10, -5, -6}, // Left Chassis Ports (negative port will reverse it!)
+    {1, 16, 19},  // Right Chassis Ports (negative port will reverse it!)
 
     11,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    300);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+    360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -77,6 +80,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  pros::Task intakeTask(intakeRun); 
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -132,8 +136,8 @@ void autonomous() {
   You can do cool curved motions, but you have to give your robot the best chance
   to be consistent
   */
-
-  ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+drive_example();
+  //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
 
 /**
@@ -244,11 +248,15 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    // Gives you some extras to make EZ-Template ezier
+    if (master.get_digital_new_press(DIGITAL_R1)) {
+      intaketoggle();
+    }// Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    
+    
+    //chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
