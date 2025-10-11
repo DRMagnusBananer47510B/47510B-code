@@ -1,6 +1,7 @@
 #include "main.h"
 #include "autons.hpp"
 #include "opcontrol.h"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
 
 /////
@@ -11,8 +12,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-     {-10, -5, -6}, // Left Chassis Ports (negative port will reverse it!)
-    {1, 16, 19},  // Right Chassis Ports (negative port will reverse it!)
+     {-11, -12, -13}, // Left Chassis Ports (negative port will reverse it!)
+    {10, 3, 2},  // Right Chassis Ports (negative port will reverse it!)
 
     11,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -61,7 +62,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Drive\n\nDrive forward and come back", drive_example},
+      {"Drive\n\nDrive forward and come back", drive_notexample},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
@@ -136,8 +137,8 @@ void autonomous() {
   You can do cool curved motions, but you have to give your robot the best chance
   to be consistent
   */
-drive_example();
-  //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+
+  ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
 
 /**
@@ -248,10 +249,21 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    if (master.get_digital_new_press(DIGITAL_R1)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       intaketoggle();
     }// Gives you some extras to make EZ-Template ezier
-    ez_template_extras();
+    //ez_template_extras();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+      if(hoodon==intakeOn){
+        intaketoggle();
+        hoodtoggle();
+      }
+      else{
+        if(!intakeOn) {intaketoggle();}
+        hoodtoggle();
+      }
+    }
+
 
     
     

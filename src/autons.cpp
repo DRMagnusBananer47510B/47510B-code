@@ -51,7 +51,7 @@ void default_constants() {
 ///
 // Drive Example
 ///
-void drive_example() {
+void drive_notexample() {
   // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
