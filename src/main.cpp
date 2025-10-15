@@ -249,18 +249,38 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       intaketoggle();
-    }// Gives you some extras to make EZ-Template ezier
-    //ez_template_extras();
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-      if(hoodon==intakeOn){
-        intaketoggle();
-        hoodtoggle();
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
+      hoodtoggle ();
+    }
+    
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+    
+    if(hoodon==intakeOn){
+      intaketoggle();
+      hoodtoggle();
       }
-      else{
-        if(!intakeOn) {intaketoggle();}
-        hoodtoggle();
+    else {
+       if(!intakeOn) {intaketoggle();}
+       hoodtoggle();
+      }
+    }
+
+     //Gives you some extras to make EZ-Template ezier
+    //ez_template_extras();
+   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+    
+     if(hoodon==intakeOn){
+      intaketoggle();
+      hoodtoggle();
+      intakeSpeed = -600;
+ 
+      }else{
+       if(!intakeOn) {intaketoggle();}
+       hoodtoggle();
+       intakeSpeed = -600;
       }
     }
 
@@ -280,3 +300,4 @@ void opcontrol() {
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
+

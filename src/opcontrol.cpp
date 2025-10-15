@@ -11,6 +11,7 @@ ez::PID intakePID(1,0,0);
 pros::Motor intake (20);
 pros::Motor hood (-14);
 void intaketoggle(){
+    intakeSpeed = 600;
     intakeOn = !intakeOn;
 }
 
@@ -40,5 +41,6 @@ int intakeRun(){
     }
 }
 void hoodtoggle(){
+    intakeSpeed = 600;
     hoodon = !hoodon;
 }
