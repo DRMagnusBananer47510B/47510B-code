@@ -7,12 +7,18 @@
 bool intakeOn = false;
 bool hoodon = false;
 int intakeSpeed = 600;
+bool load = false;
+ez::Piston loader ('e');
 ez::PID intakePID(1,0,0);
 pros::Motor intake (20);
 pros::Motor hood (-14);
 void intaketoggle(){
     intakeSpeed = 600;
     intakeOn = !intakeOn;
+}
+void loadRun(){
+ load = !load;
+ loader.set(load);
 }
 
 int intakeRun(){

@@ -4,6 +4,7 @@
 
 
 #include "EZ-Template/PID.hpp"
+#include "EZ-Template/piston.hpp"
 #include "pros/motors.hpp"
 extern pros::Motor intake;
 extern pros::Motor hood;
@@ -14,6 +15,12 @@ void intaketoggle();
 void hoodtoggle ();
 extern ez::PID intakePID;
 int intakeRun();
+extern bool load;
+extern ez::Piston loader;
+extern void loadtoggle();
+extern void loadRun();
+
+
 
 
 #endif

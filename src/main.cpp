@@ -283,7 +283,10 @@ void opcontrol() {
        intakeSpeed = -600;
       }
     }
-
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      loadRun();
+      
+    }
 
     
     
