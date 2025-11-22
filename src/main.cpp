@@ -3,7 +3,6 @@
 #include "opcontrol.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
-
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -283,9 +282,12 @@ void opcontrol() {
        intakeSpeed = -600;
       }
     }
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
       loadRun();
       
+    }
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+      descoreRun();
     }
 
     

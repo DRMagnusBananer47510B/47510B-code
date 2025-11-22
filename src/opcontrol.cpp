@@ -8,9 +8,11 @@ bool intakeOn = false;
 bool hoodon = false;
 int intakeSpeed = 600;
 bool load = false;
+ez::Piston descore('c');
+bool push = false;
 ez::Piston loader ('e');
 ez::PID intakePID(1,0,0);
-pros::Motor intake (20);
+pros::Motor intake (-20);
 pros::Motor hood (-14);
 void intaketoggle(){
     intakeSpeed = 600;
@@ -19,6 +21,10 @@ void intaketoggle(){
 void loadRun(){
  load = !load;
  loader.set(load);
+}
+void descoreRun(){
+    push = !push;
+    descore.set(push);
 }
 
 int intakeRun(){

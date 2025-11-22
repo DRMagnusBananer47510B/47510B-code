@@ -19,6 +19,9 @@ extern bool load;
 extern ez::Piston loader;
 extern void loadtoggle();
 extern void loadRun();
+extern ez::Piston descore;
+extern bool push;
+extern void descoreRun();
 
 
 
