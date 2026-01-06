@@ -14,7 +14,7 @@ ez::Drive chassis(
      {-11, -12, -13}, // Left Chassis Ports (negative port will reverse it!)
     {10, 3, 2},  // Right Chassis Ports (negative port will reverse it!)
 
-    11,      // IMU Port
+    5,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
@@ -121,7 +121,7 @@ void autonomous() {
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
-  chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
+  chassis.odom_xyt_set(0_in, 0_in, 180_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
 
   /*
@@ -136,8 +136,8 @@ void autonomous() {
   You can do cool curved motions, but you have to give your robot the best chance
   to be consistent
   */
-
-  ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+  drive_notexample();
+  //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
 
 /**

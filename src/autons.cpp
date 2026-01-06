@@ -1,4 +1,7 @@
 #include "main.h"
+#include "opcontrol.h"
+#include "pros/rtos.hpp"
+#include "subsystems.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -17,7 +20,7 @@ void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(20.0, 0.2, 210.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(6.50, 0.20, 52.50, 15.0);     // Turn in place constants
+  chassis.pid_turn_constants_set(6.50, 0.20, 52.50, 15.0);   // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
@@ -55,10 +58,26 @@ void drive_notexample() {
   // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
-  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-
-  chassis.pid_drive_set(48_in, DRIVE_SPEED, true);
+  chassis.odom_xyt_set(0_in, 0_in, 180_deg);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
+  chassis.pid_turn_set(165_deg, TURN_SPEED);
   chassis.pid_wait();
+  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(270_deg, TURN_SPEED);
+  intaketoggle();
+  chassis.pid_wait();
+  loadRun();
+  pros::delay(350);
+  chassis.pid_drive_set(16_in, 127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-6_in, 127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(11_in, 127);
+  chassis.pid_wait();
+  pros::delay(1350);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  hoodtoggle();
 
   // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
   // chassis.pid_wait();
@@ -322,7 +341,7 @@ void measure_offsets() {
   if (chassis.odom_tracker_right != nullptr) chassis.odom_tracker_right->reset();
   if (chassis.odom_tracker_back != nullptr) chassis.odom_tracker_back->reset();
   if (chassis.odom_tracker_front != nullptr) chassis.odom_tracker_front->reset();
-  
+
   for (int i = 0; i < iterations; i++) {
     // Reset pid targets and get ready for running an auton
     chassis.pid_targets_reset();
