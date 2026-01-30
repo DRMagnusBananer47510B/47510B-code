@@ -61,7 +61,7 @@ void drive_notexample() {
   chassis.odom_xyt_set(0_in, 0_in, 180_deg);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
   chassis.pid_turn_set(165_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(31_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_turn_set(270_deg, TURN_SPEED);
   intaketoggle();
@@ -70,15 +70,20 @@ void drive_notexample() {
   pros::delay(350);
   chassis.pid_drive_set(16_in, 127);
   chassis.pid_wait();
-  chassis.pid_drive_set(-6_in, 127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(11_in, 127);
+  //chassis.pid_drive_set(-6_in, 127);
+  //chassis.pid_wait();
+  //chassis.pid_drive_set(9_in, 127);
+   chassis.pid_turn_set(27_deg, TURN_SPEED);
   chassis.pid_wait();
   pros::delay(1350);
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
   chassis.pid_wait();
   hoodtoggle();
-
+  descoreRun();
+  pros::delay(1350);
+  chassis.pid_drive_set(5_in, 127);
+  chassis.pid_turn_relative_set(180_deg, TURN_SPEED);
+  chassis.pid_drive_set(7_in, 127);
   // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
   // chassis.pid_wait();
 
