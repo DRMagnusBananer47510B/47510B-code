@@ -73,7 +73,7 @@ void drive_notexample() {
   //chassis.pid_drive_set(-6_in, 127);
   //chassis.pid_wait();
   //chassis.pid_drive_set(9_in, 127);
-   chassis.pid_turn_set(27_deg, TURN_SPEED);
+   chassis.pid_turn_set(277_deg, TURN_SPEED);
   chassis.pid_wait();
   pros::delay(1350);
   chassis.pid_drive_set(-29_in, DRIVE_SPEED);
@@ -82,8 +82,13 @@ void drive_notexample() {
   descoreRun();
   pros::delay(1350);
   chassis.pid_drive_set(5_in, 127);
-  chassis.pid_turn_relative_set(180_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(170_deg, 50);
+  pros::delay(4000);
+  loadRun();
+  descoreRun();
   chassis.pid_drive_set(7_in, 127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(7_in,127);
   // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
   // chassis.pid_wait();
 
