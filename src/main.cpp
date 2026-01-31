@@ -124,19 +124,20 @@ void autonomous() {
   chassis.odom_xyt_set(0_in, 0_in, 180_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
 
-  /*
-  Odometry and Pure Pursuit are not magic
+  
+  //Odometry and Pure Pursuit are not magic
 
-  It is possible to get perfectly consistent results without tracking wheels,
-  but it is also possible to have extremely inconsistent results without tracking wheels.
-  When you don't use tracking wheels, you need to:
-   - avoid wheel slip
-   - avoid wheelies
-   - avoid throwing momentum around (super harsh turns, like in the example below)
-  You can do cool curved motions, but you have to give your robot the best chance
-  to be consistent
-  */
-  drive_notexample();
+  //It is possible to get perfectly consistent results without tracking wheels,
+  //but it is also possible to have extremely inconsistent results without tracking wheels.
+  //When you don't use tracking wheels, you need to:
+   //- avoid wheel slip
+   //- avoid wheelies
+   //- avoid throwing momentum around (super harsh turns, like in the example below)
+  //You can do cool curved motions, but you have to give your robot the best chance
+  //to be consistent
+  //turn_example();
+  //drive_notexample();
+  drive_and_turn();
   //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
 
