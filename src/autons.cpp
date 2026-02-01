@@ -1,5 +1,6 @@
 #include "main.h"
 #include "opcontrol.h"
+#include "pros/rtos.h"
 #include "pros/rtos.hpp"
 #include "subsystems.hpp"
 
@@ -103,30 +104,41 @@ void drive_notexample() {
 // Turn Example
 ///
 void turn_example() {
-  chassis.odom_xyt_set(0_in, 0_in, 90_deg);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_turn_set(105_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  intaketoggle();
-  chassis.pid_wait();
-  loadRun();
-  descoreRun();
-  pros::delay(200);
-  chassis.pid_drive_set(21_in, 60);
-
-  chassis.pid_wait();
-  // chassis.pid_drive_set(-6_in, 127);
-  // chassis.pid_wait();
-  chassis.pid_drive_set(1_in, 127);
-  chassis.pid_turn_set(355_deg, TURN_SPEED);
+intaketoggle();
+   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+  // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
+  chassis.pid_drive_set(30_in, TURN_SPEED);
+  //chassis.pid_drive_set(_in, 127);
   chassis.pid_wait();
   pros::delay(1000);
-  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_drive_set(3_in, TURN_SPEED);
+  chassis.pid_turn_set(-115_deg, TURN_SPEED);
   chassis.pid_wait();
+  chassis.pid_drive_set(-12_in, 127);
+  pros:pros::c::delay(1000);
   hoodtoggle();
-  loadRun();
+  // chassis.pid_wait();
+  // chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
+  // chassis.pid_wait();
+  // chassis.pid_turn_set(0_deg, TURN_SPEED);
+  // intaketoggle();
+  // chassis.pid_wait();
+  // loadRun();
+  // descoreRun();
+  // pros::delay(200);
+  // chassis.pid_drive_set(21_in, 60);
+
+  // chassis.pid_wait();
+  // // chassis.pid_drive_set(-6_in, 127);
+  // // chassis.pid_wait();
+  // chassis.pid_drive_set(1_in, 127);
+  // chassis.pid_turn_set(355_deg, TURN_SPEED);
+  // chassis.pid_wait();
+  // pros::delay(1000);
+  // chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  // chassis.pid_wait();
+  // hoodtoggle();
+  // loadRun();
   // pros::delay(2000);
   // //chassis.pid_drive_set(2_in,127);
   // chassis.pid_drive_set(10_in, 127);
