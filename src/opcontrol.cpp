@@ -6,7 +6,7 @@
 
 bool intakeOn = false;
 bool hoodon = false;
-int intakeSpeed = 600;
+int intakeSpeed = 500;
 bool load = false;
 ez::Piston descore('c');
 bool push = false;
