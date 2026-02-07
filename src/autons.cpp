@@ -61,7 +61,7 @@ void drive_notexample() {
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
   chassis.pid_drive_set(29.25_in, 50);
   chassis.pid_wait();
-  chassis.pid_turn_relative_set(-74_deg,127);
+  chassis.pid_turn_relative_set(-74_deg, 127);
   chassis.pid_drive_set(13_in, 127);
   chassis.pid_wait();
   intakeSpeed = -600;
@@ -73,13 +73,13 @@ void drive_notexample() {
   intakeSpeed = 600;
   chassis.pid_wait();
   chassis.pid_drive_set(25_in, 60);
-  //chassis.pid_drive_set(3_in, 60);
+  // chassis.pid_drive_set(3_in, 60);
   pros::delay(1200);
   chassis.pid_wait();
-   chassis.pid_drive_set(-29_in, DRIVE_SPEED);
-   chassis.pid_wait();
-   pros::delay(500);
-   hoodtoggle();
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  pros::delay(500);
+  hoodtoggle();
   // // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
@@ -151,10 +151,10 @@ void turn_example() {
   chassis.pid_drive_set(12_in, 127);
   pros::delay(1200);
   chassis.pid_wait();
-   chassis.pid_drive_set(-29_in, DRIVE_SPEED);
-   chassis.pid_wait();
-   pros::delay(500);
-   hoodtoggle();
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  pros::delay(500);
+  hoodtoggle();
 
   // chassis.pid_wait();
   // chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
