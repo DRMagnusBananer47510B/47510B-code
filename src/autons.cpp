@@ -131,7 +131,7 @@ void turn_example() {
   intaketoggle();
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_drive_set(30_in, 40);
+  chassis.pid_drive_set(28_in, 40);
   // chassis.pid_drive_set(_in, 127);
   chassis.pid_wait();
   pros::delay(500);
@@ -148,10 +148,17 @@ void turn_example() {
   chassis.pid_turn_relative_set(-45_deg, TURN_SPEED);
   loadRun();
   chassis.pid_wait();
-  chassis.pid_drive_set(12_in, 127);
-  pros::delay(1200);
+  chassis.pid_drive_set(12.5_in, 127);
   chassis.pid_wait();
-  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_drive_set(-2_in, 127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(2.5_in, 127);
+  chassis.pid_wait();
+  pros::c::delay(1100);
+  chassis.pid_wait();
+  chassis.pid_turn_relative_set(2, 127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-29.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   pros::delay(500);
   hoodtoggle();
