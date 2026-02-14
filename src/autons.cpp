@@ -59,11 +59,28 @@ void drive_notexample() {
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   intaketoggle();
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_drive_set(29.5_in, 50);
+  chassis.pid_drive_set(29.25_in, 50);
   chassis.pid_wait();
-  chassis.pid_turn_relative_set(-180_deg,127);
+  chassis.pid_turn_relative_set(-74_deg, 127);
   chassis.pid_drive_set(13_in, 127);
-  // The first parameter is target inches
+  chassis.pid_wait();
+  intakeSpeed = -600;
+  pros::delay(1500);
+  chassis.pid_drive_set(-40_in, 127);
+  chassis.pid_wait();
+  chassis.pid_turn_relative_set(-124_deg, TURN_SPEED);
+  loadRun();
+  intakeSpeed = 600;
+  chassis.pid_wait();
+  chassis.pid_drive_set(25_in, 60);
+  // chassis.pid_drive_set(3_in, 60);
+  pros::delay(1200);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  pros::delay(500);
+  hoodtoggle();
+  // // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
   // chassis.odom_xyt_set(0_in, 0_in, 180_deg);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
@@ -114,23 +131,52 @@ void turn_example() {
   intaketoggle();
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_drive_set(29.5_in, 50);
+  chassis.pid_drive_set(20.5_in, 40);
   // chassis.pid_drive_set(_in, 127);
   chassis.pid_wait();
-  pros::delay(1000);
-  chassis.pid_drive_set(3_in, TURN_SPEED);
-  chassis.pid_turn_set(-114_deg, TURN_SPEED);
+  pros::delay(500);
+  chassis.pid_turn_set(-105_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-13_in, 127);
+  chassis.pid_drive_set(-7.25_in, 127);
+  pros::c::delay(3000);
+   if(intakeSpeed == 600 && hoodspeed == 50 && hoodon && intakeOn){
+        intaketoggle();
+        hoodtoggle();
+      }
+
+  
+   else if(intakeOn == false){
+      intaketoggle();
+    }
+   else if (intakeSpeed == -600) {
+      intaketoggle();
+      intaketoggle();
+    }
+    if (hoodon == false && intakeOn) {
+      hoodtoggle();
+      hoodspeed = 50;
+    }
+    else if(hoodspeed == -60 || hoodspeed == 600 || hoodspeed == -600){
+      hoodtoggle();
+      hoodtoggle();
+      hoodspeed = 50;
+    }
+    middlegoalscorer();
+      
   pros::c::delay(1500);
+  chassis.pid_drive_set(30_in, 127);
   hoodtoggle();
-  pros::c::delay(1500);
-  chassis.pid_drive_set(48_in, 127);
   chassis.pid_wait();
   chassis.pid_turn_relative_set(-45_deg, TURN_SPEED);
   loadRun();
   chassis.pid_wait();
-  chassis.pid_drive_set(10_in, 60);
+  chassis.pid_drive_set(12_in, 127);
+  pros::delay(1200);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  pros::delay(500);
+  hoodtoggle();
 
   // chassis.pid_wait();
   // chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
