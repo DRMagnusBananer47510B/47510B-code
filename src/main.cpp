@@ -1,24 +1,24 @@
+
 #include "main.h"
 
 #include "autons.hpp"
 #include "opcontrol.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+    /////
+    // For installation, upgrading, documentations, and tutorials, check out our website!
+    // https://ez-robotics.github.io/EZ-Template/
+    /////
 
-/////
-// For installation, upgrading, documentations, and tutorials, check out our website!
-// https://ez-robotics.github.io/EZ-Template/
-/////
+    // Chassis constructor
+    ez::Drive chassis(
+        // These are your drive motors, the first motor is used for sensing!
+        {-11, -12, -13},  // Left Chassis Ports (negative port will reverse it!)
+        {10, 3, 2},       // Right Chassis Ports (negative port will reverse it!)
 
-// Chassis constructor
-ez::Drive chassis(
-    // These are your drive motors, the first motor is used for sensing!
-    {-11, -12, -13},  // Left Chassis Ports (negative port will reverse it!)
-    {10, 3, 2},       // Right Chassis Ports (negative port will reverse it!)
-
-    5,     // IMU Port
-    3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    360);  // Wheel RPM = cartridge * (motor gear / wheel gear)
+        5,     // IMU Port
+        3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+        360);  // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -136,8 +136,10 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
+  // turn_example();
+  drive_notexample();
   turn_example();
-   //drive_notexample();
+  // drive_notexample();
   // drive_and_turn();
   // ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
@@ -252,21 +254,83 @@ void opcontrol() {
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       intaketoggle();
+
+      if (intakeOn == false) {
+        intaketoggle();
+      } else if (intakeSpeed == 600 && hoodspeed == 600) {
+        hoodtoggle();
+      } else if (intakeSpeed == -600) {
+        intaketoggle();
+        intaketoggle();
+      } else {
+        intaketoggle();
+      }
+      if (hoodspeed == -60) {
+        hoodtoggle();
+      } else if (hoodon == false) {
+        hoodtoggle();
+        hoodspeed = -60;
+      }
+
+      else {
+        hoodspeed = -60;
+      }
+      if (middle) {
+        middlegoalscorer();
+      }
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       hoodtoggle();
+      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+      }
+
+      else if (intakeOn == false) {
+        intaketoggle();
+      } else if (intakeSpeed == -600) {
+        intaketoggle();
+        intaketoggle();
+      }
+      if (hoodon == false && intakeOn) {
+        hoodtoggle();
+      } else if (hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
+        hoodtoggle();
+        hoodtoggle();
+      }
+      if (middle) {
+        middlegoalscorer();
+      }
     }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (hoodon == intakeOn) {
-        intaketoggle();
-        hoodtoggle();
-      } else {
-        if (!intakeOn) {
+        if (intakeSpeed == 600 && hoodspeed == 100 && hoodon && intakeOn) {
+          intaketoggle();
+          hoodtoggle();
+        }
+
+        else if (intakeOn == false) {
+          intaketoggle();
+        } else if (intakeSpeed == -600) {
+          intaketoggle();
           intaketoggle();
         }
+        if (hoodon == false && intakeOn) {
+          hoodtoggle();
+        } else {
+          if (!intakeOn) {
+            intaketoggle();
+          }
+          hoodtoggle();
+        }
+        hoodspeed = 100;
+      } else if (hoodspeed == -60 || hoodspeed == 600 || hoodspeed == -600) {
         hoodtoggle();
+        hoodtoggle();
+        hoodspeed = 100;
       }
+      middlegoalscorer();
     }
 
     // Gives you some extras to make EZ-Template ezier
@@ -283,6 +347,9 @@ void opcontrol() {
         }
         hoodtoggle();
         intakeSpeed = -600;
+      }
+      if (middle) {
+        middlegoalscorer();
       }
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
