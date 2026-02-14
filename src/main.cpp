@@ -1,8 +1,10 @@
 #include "main.h"
+
 #include "autons.hpp"
 #include "opcontrol.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -11,12 +13,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-     {-11, -12, -13}, // Left Chassis Ports (negative port will reverse it!)
-    {10, 3, 2},  // Right Chassis Ports (negative port will reverse it!)
+    {-11, -12, -13},  // Left Chassis Ports (negative port will reverse it!)
+    {10, 3, 2},       // Right Chassis Ports (negative port will reverse it!)
 
-    5,      // IMU Port
+    5,     // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+    360);  // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -80,7 +82,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-  pros::Task intakeTask(intakeRun); 
+  pros::Task intakeTask(intakeRun);
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -121,12 +123,12 @@ void autonomous() {
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
-  chassis.odom_xyt_set(0_in, 0_in, 180_deg);    // Set the current position, you can start at a specific position with this
+  chassis.odom_xyt_set(0_in, 0_in, 180_deg);  // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
 
-  
-  //Odometry and Pure Pursuit are not magic
+  // Odometry and Pure Pursuit are not magic
 
+<<<<<<< HEAD
   //It is possible to get perfectly consistent results without tracking wheels,
   //but it is also possible to have extremely inconsistent results without tracking wheels.
   //When you don't use tracking wheels, you need to:
@@ -139,6 +141,20 @@ void autonomous() {
   //drive_notexample();
   //drive_and_turn();
   //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+=======
+  // It is possible to get perfectly consistent results without tracking wheels,
+  // but it is also possible to have extremely inconsistent results without tracking wheels.
+  // When you don't use tracking wheels, you need to:
+  //- avoid wheel slip
+  //- avoid wheelies
+  //- avoid throwing momentum around (super harsh turns, like in the example below)
+  // You can do cool curved motions, but you have to give your robot the best chance
+  // to be consistent
+  turn_example();
+   //drive_notexample();
+  // drive_and_turn();
+  // ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+>>>>>>> 2d5809d06b320b0116bc209a09a953400dfab978
 }
 
 /**
@@ -280,6 +296,7 @@ void opcontrol() {
     middlegoalscorer();
     }
     }
+<<<<<<< HEAD
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
     if(intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn){
         intaketoggle();
@@ -333,38 +350,52 @@ void opcontrol() {
     }
     middlegoalscorer();
       
+=======
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      hoodtoggle();
     }
 
-     //Gives you some extras to make EZ-Template ezier
-    //ez_template_extras();
-   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-    
-     if(hoodon==intakeOn){
-      intaketoggle();
-      hoodtoggle();
-      intakeSpeed = -600;
- 
-      }else{
-       if(!intakeOn) {intaketoggle();}
-       hoodtoggle();
-       intakeSpeed = -600;
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      if (hoodon == intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+      } else {
+        if (!intakeOn) {
+          intaketoggle();
+        }
+        hoodtoggle();
+      }
+>>>>>>> 2d5809d06b320b0116bc209a09a953400dfab978
+    }
+
+    // Gives you some extras to make EZ-Template ezier
+    // ez_template_extras();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      if (hoodon == intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+        intakeSpeed = -600;
+
+      } else {
+        if (!intakeOn) {
+          intaketoggle();
+        }
+        hoodtoggle();
+        intakeSpeed = -600;
       }
       if (middle) {
     middlegoalscorer();
     }
     }
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
       loadRun();
-      
     }
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
       descoreRun();
     }
 
-    
-    
-    //chassis.opcontrol_tank();  // Tank control
-    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    // chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
@@ -376,4 +407,3 @@ void opcontrol() {
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
-
