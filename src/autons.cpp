@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "opcontrol.h"
 #include "pros/rtos.h"
@@ -20,8 +19,8 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(20.0, 0.2, 210.0);         // Fwd/rev constants, used for odom and non odom motions
-  chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
+  chassis.pid_drive_constants_set(18, 0, 210.0);             // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_heading_constants_set(15.0, 1, 20.0);          // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(6.50, 0.20, 52.50, 15.0);   // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
@@ -60,13 +59,10 @@ void drive_notexample() {
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   intaketoggle();
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_drive_set(29.5_in, 50);
   chassis.pid_drive_set(29.25_in, 50);
   chassis.pid_wait();
-  chassis.pid_turn_relative_set(-180_deg,127);
   chassis.pid_turn_relative_set(-74_deg, 127);
-  chassis.pid_drive_set(13_in, 127);
-  // The first parameter is target inches
+  chassis.pid_drive_set(14_in, 127);
   chassis.pid_wait();
   intakeSpeed = -600;
   pros::delay(1500);
@@ -135,60 +131,57 @@ void turn_example() {
   intaketoggle();
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   // chassis.pid_turn_set(5_deg, TURN_SPEED);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_drive_set(29.5_in, 50);
-  chassis.pid_drive_set(20.5_in, 40);
-  // chassis.pid_drive_set(_in, 127);
-  chassis.pid_wait();
-  pros::delay(1000);
-  chassis.pid_drive_set(3_in, TURN_SPEED);
-  chassis.pid_turn_set(-114_deg, TURN_SPEED);
-  pros::delay(500);
-  chassis.pid_turn_set(-105_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-13_in, 127);
-  chassis.pid_drive_set(-7.25_in, 127);
-  pros::c::delay(3000);
-   if(intakeSpeed == 600 && hoodspeed == 50 && hoodon && intakeOn){
-        intaketoggle();
-        hoodtoggle();
-      }
+  chassis.pid_drive_set(29.5_in, 40);
+ 
 
-  
-   else if(intakeOn == false){
-      intaketoggle();
-    }
-   else if (intakeSpeed == -600) {
-      intaketoggle();
-      intaketoggle();
-    }
-    if (hoodon == false && intakeOn) {
-      hoodtoggle();
-      hoodspeed = 50;
-    }
-    else if(hoodspeed == -60 || hoodspeed == 600 || hoodspeed == -600){
-      hoodtoggle();
-      hoodtoggle();
-      hoodspeed = 50;
-    }
-    middlegoalscorer();
-      
-  pros::c::delay(1500);
-  chassis.pid_drive_set(30_in, 127);
+  chassis.pid_wait();
+
+  pros::delay(500);
+  chassis.pid_drive_set(3_in, TURN_SPEED);
+  chassis.pid_turn_set(-110_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-19_in, 127);
+  pros::c::delay(1000);
+  middlegoalscorer();
+  chassis.pid_drive_set(-1, 127);
+  chassis.pid_drive_set(1, 127);
   hoodtoggle();
-  pros::c::delay(1500);
-  chassis.pid_drive_set(48_in, 127);
+  hoodspeed = 60;
+  pros::c::delay(1800);
+  chassis.pid_drive_set(49.5_in, 127);
+  hoodtoggle();
+  middlegoalscorer();
   chassis.pid_wait();
-  chassis.pid_turn_relative_set(-45_deg, TURN_SPEED);
-  loadRun();
+  chassis.pid_turn_relative_set(-47_deg, TURN_SPEED);
+   loadRun();
   chassis.pid_wait();
-  chassis.pid_drive_set(10_in, 60);
-  chassis.pid_drive_set(12_in, 127);
-  pros::delay(1200);
+  chassis.pid_drive_set(23_in, 80);
+  pros::delay(550);
+  chassis.pid_turn_relative_set(-1, 108);
+  pros::delay(550);
   chassis.pid_wait();
+  chassis.pid_turn_relative_set(-1_deg, 127);
   chassis.pid_drive_set(-29_in, DRIVE_SPEED);
   chassis.pid_wait();
-  pros::delay(500);
+
+  pros::delay(100);
+
   hoodtoggle();
+
+  // pros::c::delay(1500);
+  // chassis.pid_drive_set(30_in, 127);
+  // hoodtoggle();
+  // chassis.pid_wait();
+  // chassis.pid_turn_relative_set(-45_deg, TURN_SPEED);
+  // loadRun();
+  // chassis.pid_wait();
+  // chassis.pid_drive_set(12_in, 127);
+  // pros::delay(1200);
+  // chassis.pid_wait();
+  // chassis.pid_drive_set(-29_in, DRIVE_SPEED);
+  // chassis.pid_wait();
+  // pros::delay(500);
+  // hoodtoggle();
 
   // chassis.pid_wait();
   // chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
@@ -229,41 +222,8 @@ void turn_example() {
 // Combining Turn + Drive
 ///
 void drive_and_turn() {
-  // chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
-  // chassis.pid_wait();
-
-  // chassis.pid_turn_set(45_deg, TURN_SPEED);
-  // chassis.pid_wait();
-
-  // chassis.pid_turn_set(-45_deg, TURN_SPEED);
-  // chassis.pid_wait();
-
-  // chassis.pid_turn_set(0_deg, TURN_SPEED);
-  // chassis.pid_wait();
-
-  // chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
-  // chassis.pid_wait();
-  chassis.odom_xyt_set(0_in, 0_in, 180_deg);  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
-  chassis.pid_turn_set(165_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(33_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(275_deg, TURN_SPEED);
-  intaketoggle();
-  chassis.pid_wait();
-  loadRun();
-  descoreRun();
-  pros::delay(1000);
-  chassis.pid_drive_set(17_in, 127);
-  pros::delay(5000);
-  chassis.pid_wait();
-  chassis.pid_drive_set(1_in, 127);
-  chassis.pid_turn_set(278_deg, TURN_SPEED);
-  chassis.pid_wait();
-  pros::delay(1350);
-  chassis.pid_drive_set(-29_in, DRIVE_SPEED);
-  chassis.pid_wait();
-  hoodtoggle();
+  chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+  chassis.pid_drive_set(48_in, 108);
 }
 
 ///
@@ -537,3 +497,4 @@ void measure_offsets() {
 
 // . . .
 // Make your own autonomous functions here!
+// . . .
