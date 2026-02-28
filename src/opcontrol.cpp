@@ -6,7 +6,7 @@
 
 bool intakeOn = false;
 bool hoodon = false;
-int intakeSpeed = 600;
+int intakeSpeed = 6+ 00;
 bool load = false;
 bool middle = false;
 int hoodspeed = 600;
