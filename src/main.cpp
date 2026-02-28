@@ -250,6 +250,115 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    drive_and_turn(); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+      if (intakeOn == false) {
+        intaketoggle();
+      } else if (intakeSpeed == 600 && hoodspeed == 600) {
+        hoodtoggle();
+      } else if (intakeSpeed == -600) {
+        intaketoggle();
+        intaketoggle();
+      } else {
+        intaketoggle();
+      }
+      if (hoodspeed == -60) {
+        hoodtoggle();
+      } else if (hoodon == false) {
+        hoodtoggle();
+        hoodspeed = -60;
+      }
+
+      else {
+        hoodspeed = -60;
+      }
+      if (middle) {
+        middlegoalscorer();
+      }
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+      }
+
+      else if (intakeOn == false) {
+        intaketoggle();
+      } else if (intakeSpeed == -600) {
+        intaketoggle();
+        intaketoggle();
+      }
+      if (hoodon == false && intakeOn) {
+        hoodtoggle();
+      } else if (hoodspeed == 50 || hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
+        hoodtoggle();
+        hoodtoggle();
+      }
+      if (middle) {
+        middlegoalscorer();
+      }
+    }
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      if (intakeSpeed == 600 && hoodspeed == 100 && hoodon && intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+      }
+
+      else if (intakeOn == false) {
+        intaketoggle();
+      } else if (intakeSpeed == -600) {
+        intaketoggle();
+        intaketoggle();
+      }
+      if (hoodon == false && intakeOn) {
+        hoodtoggle();
+        hoodspeed = 100;
+      } else if (hoodspeed == -60 || hoodspeed == 600 || hoodspeed == -600) {
+        hoodtoggle();
+        hoodtoggle();
+        hoodspeed = 100;
+      }
+      middlegoalscorer();
+    }
+
+    // Gives you some extras to make EZ-Template ezier
+    // ez_template_extras();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      if (hoodon == intakeOn) {
+        intaketoggle();
+        hoodtoggle();
+        hoodspeed = -600;
+        intakeSpeed = -600;
+
+      } else {
+        if (!intakeOn) {
+          intaketoggle();
+        }
+        hoodtoggle();
+        hoodspeed = -600;
+        intakeSpeed = -600;
+      }
+      if (middle) {
+        middlegoalscorer();
+      }
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+      loadRun();
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+      descoreRun();
+    }
+
+    // chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
+    // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
+    // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
+    // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
+
+    // . . .
+    // Put more user control code here!
+    // . . .
+
+    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
