@@ -250,32 +250,29 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      if (intakeOn == false) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
         intaketoggle();
-      } else if (intakeSpeed == 600 && hoodspeed == 600) {
         hoodtoggle();
+      }
+
+      else if (intakeOn == false) {
+        intaketoggle();
       } else if (intakeSpeed == -600) {
         intaketoggle();
         intaketoggle();
-      } else {
-        intaketoggle();
       }
-      if (hoodspeed == -60) {
+      if (hoodon == false && intakeOn) {
         hoodtoggle();
-      } else if (hoodon == false) {
+      } else if (hoodspeed == 50 || hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
         hoodtoggle();
-        hoodspeed = -60;
+        hoodtoggle();
       }
-
-      else {
-        hoodspeed = -60;
-      }
-      if (middle) {
+      if (middle==false) {
         middlegoalscorer();
       }
     }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
         intaketoggle();
         hoodtoggle();
@@ -298,50 +295,11 @@ void opcontrol() {
       }
     }
 
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      if (intakeSpeed == 600 && hoodspeed == 100 && hoodon && intakeOn) {
-        intaketoggle();
-        hoodtoggle();
-      }
-
-      else if (intakeOn == false) {
-        intaketoggle();
-      } else if (intakeSpeed == -600) {
-        intaketoggle();
-        intaketoggle();
-      }
-      if (hoodon == false && intakeOn) {
-        hoodtoggle();
-        hoodspeed = 100;
-      } else if (hoodspeed == -60 || hoodspeed == 600 || hoodspeed == -600) {
-        hoodtoggle();
-        hoodtoggle();
-        hoodspeed = 100;
-      }
-      middlegoalscorer();
-    }
+    
 
     // Gives you some extras to make EZ-Template ezier
     // ez_template_extras();
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-      if (hoodon == intakeOn) {
-        intaketoggle();
-        hoodtoggle();
-        hoodspeed = -600;
-        intakeSpeed = -600;
 
-      } else {
-        if (!intakeOn) {
-          intaketoggle();
-        }
-        hoodtoggle();
-        hoodspeed = -600;
-        intakeSpeed = -600;
-      }
-      if (middle) {
-        middlegoalscorer();
-      }
-    }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
       loadRun();
     }

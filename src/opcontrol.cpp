@@ -6,16 +6,17 @@
 
 bool intakeOn = false;
 bool hoodon = false;
-int intakeSpeed = 6+ 00;
+int intakeSpeed = 600;
 bool load = false;
 bool middle = false;
 int hoodspeed = 600;
 ez::Piston middlegoal('a');
-ez::Piston descore('c');
+ez::Piston descore('f');
 bool push = false;
+
 ez::Piston loader ('e');
 ez::PID intakePID(1,0,0);
-pros::Motor intake (-20);
+pros::Motor intake (20);
 pros::Motor hood (-14);
 void intaketoggle(){
     intakeSpeed = 600;
