@@ -250,29 +250,16 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      if (intakeOn && !middle) {
         intaketoggle();
-        hoodtoggle();
+        middlegoalscorer()
       }
-
-      else if (intakeOn == false) {
-        intaketoggle();
-      } else if (intakeSpeed == -600) {
-        intaketoggle();
-        intaketoggle();
-      }
-      if (hoodon == false && intakeOn) {
-        hoodtoggle();
-      } else if (hoodspeed == 50 || hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
-        hoodtoggle();
-        hoodtoggle();
-      }
-      if (middle==false) {
+      else if (middle) {
         middlegoalscorer();
       }
     }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
         intaketoggle();
         hoodtoggle();
