@@ -251,49 +251,31 @@ void opcontrol() {
 
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
-        intaketoggle();
-        hoodtoggle();
-      }
-
-      else if (intakeOn == false) {
-        intaketoggle();
-      } else if (intakeSpeed == -600) {
-        intaketoggle();
-        intaketoggle();
-      }
-      if (hoodon == false && intakeOn) {
-        hoodtoggle();
-      } else if (hoodspeed == 50 || hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
-        hoodtoggle();
-        hoodtoggle();
-      }
-      if (middle==false) {
+      intaketoggle();
+      if (middle == true) {
         middlegoalscorer();
       }
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      if (intakeSpeed == 600 && hoodspeed == 600 && hoodon && intakeOn) {
-        intaketoggle();
-        hoodtoggle();
-      }
-
-      else if (intakeOn == false) {
-        intaketoggle();
-      } else if (intakeSpeed == -600) {
-        intaketoggle();
-        intaketoggle();
-      }
-      if (hoodon == false && intakeOn) {
-        hoodtoggle();
-      } else if (hoodspeed == 50 || hoodspeed == -60 || hoodspeed == 100 || hoodspeed == -600) {
-        hoodtoggle();
-        hoodtoggle();
-      }
-      if (middle) {
+      intaketoggle(); 
+      intakeSpeed = 100;
+    
+      
+    
+      if (middle == false) {
         middlegoalscorer();
       }
     }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intaketoggle();
+    
+      
+    
+      if (middle == false) {
+        middlegoalscorer();
+      }
+    }
+    
 
     
 

@@ -8,7 +8,7 @@ bool intakeOn = false;
 bool hoodon = false;
 int intakeSpeed = 600;
 bool load = false;
-bool middle = false;
+bool middle = true;
 int hoodspeed = 600;
 ez::Piston middlegoal('a');
 ez::Piston descore('f');
@@ -16,7 +16,7 @@ bool push = false;
 
 ez::Piston loader ('e');
 ez::PID intakePID(1,0,0);
-pros::Motor intake (20);
+pros::Motor intake (-20);
 pros::Motor hood (-14);
 void intaketoggle(){
     intakeSpeed = 600;
@@ -34,29 +34,18 @@ void descoreRun(){
 int intakeRun(){
     while (true){
         if(intakeOn){
-            double output = intakePID.compute_error(intakeSpeed-intake.get_actual_velocity(), intake.get_actual_velocity());
-            intake.move_velocity(output);
-            pros::lcd::print(5, "Output: %f Velocity: %f", output, intake.get_actual_velocity());
+            
+            intake.move_velocity(-intakeSpeed);
+            
+            hood.move_velocity(intakeSpeed);
         }
         else {
             intake.move_voltage(0);
-        
-        }
-
-        if (hoodon){
-            hood.move_velocity(hoodspeed);
-        }
-        else {
-            hood.move_voltage(0);
-        
+          hood.move_voltage(0);
         }
 
         pros::delay(20);
     }
-}
-void hoodtoggle(){
-    hoodspeed = 600;
-    hoodon = !hoodon;
 }
 void middlegoalscorer(){
 middle=!middle;
