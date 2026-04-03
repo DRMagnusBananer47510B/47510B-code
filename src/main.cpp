@@ -1,7 +1,9 @@
 #include "main.h"
 
+#include "EZ-Template/util.hpp"
 #include "autons.hpp"
 #include "opcontrol.h"
+#include "pros/llemu.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 
@@ -246,38 +248,80 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  // This is preference to what you like to drive on
+  int intake = false;
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      intaketoggle();
-      if (middle == true) {
+      if ((intake = true) && (middle == true) &&  (intakeSpeed == 600)) {
+        intaketoggle();
+      }
+      else {
+        if (intake == false) {
+        intaketoggle();
+         if (middle == true) {
         middlegoalscorer();
+        }}
+        else if (intakeSpeed == -600) {
+           intaketoggle();
+           intaketoggle();
+        if (middle == true) {
+        middlegoalscorer();
+        if (!stop) {
+    stoptoggle();
+    }
+        }}
+        else {
+        
+        }intaketoggle();
+        intakeSpeed = 600;
+       if (middle == true) {
+        middlegoalscorer();
+        if (!stop) {
+    stoptoggle();
+    }
+      
       }
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      intaketoggle(); 
-      intakeSpeed = 100;
-    
-      
-    
-      if (middle == false) {
-        middlegoalscorer();
-      }
-    }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-      intaketoggle();
-    
-      
-    
-      if (middle == false) {
-        middlegoalscorer();
-      }
-    }
     
 
+      intaketoggle();
+      intakeSpeed = 600;
+       if (middle == false) {
+        middlegoalscorer();
+    }
+    if (!stop) {
+    stoptoggle();
+    }
+  }
+  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+    intaketoggle();
+      intakeSpeed = 200;
+       if (middle == false) {
+        middlegoalscorer();
+    }
+    if (!stop) {
+    stoptoggle();
+  }
+  
+  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+    intaketoggle();
+    if (stop) {
+    stoptoggle();
+    }
+  }
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intaketoggle();
+      intakeSpeed = -600;
+      if (middle == true) {
+        middlegoalscorer();
     
+    }
+    if (!stop) {
+    stoptoggle();
+    }
+  }
 
     // Gives you some extras to make EZ-Template ezier
     // ez_template_extras();
@@ -301,4 +345,5 @@ void opcontrol() {
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
+}
 }

@@ -11,7 +11,7 @@ bool load = false;
 bool middle = true;
 int hoodspeed = 600;
 ez::Piston middlegoal('a');
-ez::Piston descore('f');
+ez::Piston descore('c');
 bool push = false;
 
 ez::Piston loader ('e');
@@ -21,6 +21,8 @@ pros::Motor hood (-14);
 void intaketoggle(){
     intakeSpeed = 600;
     intakeOn = !intakeOn;
+    hoodspeed = 600;
+    hoodon = !hoodon;
 }
 void loadRun(){
  load = !load;
