@@ -248,44 +248,41 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  int intake = false;
+ middlegoal.set(true);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if ((intake = true) && (middle == true) &&  (intakeSpeed == 600)) {
+      if(intakeOn && intakeSpeed == 600 && middle == false && stop){
         intaketoggle();
       }
-      else {
-        if (intake == false) {
+      else if(intakeOn ){
         intaketoggle();
-         if (middle == true) {
-        middlegoalscorer();
-        }}
-        else if (intakeSpeed == -600) {
-           intaketoggle();
-           intaketoggle();
-        if (middle == true) {
-        middlegoalscorer();
-        if (!stop) {
-    stoptoggle();
-    }
-        }}
-        else {
-        
-        }intaketoggle();
-        intakeSpeed = 600;
+        intaketoggle();
        if (middle == true) {
         middlegoalscorer();
-        if (!stop) {
+    }
+     if (!stop) {
     stoptoggle();
     }
+  }
+      else {
+      intaketoggle();
+     if (middle == true) {
+        middlegoalscorer();
+    }
+     if (!stop) {
+    stoptoggle();
+    }
+  }
       
-      }
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-    
-
+      if(intakeOn && middle == true && intakeSpeed == 600 && stop){
+        intaketoggle();
+      }
+      else if(intakeOn){
+      intaketoggle();
       intaketoggle();
       intakeSpeed = 600;
        if (middle == false) {
@@ -295,31 +292,93 @@ void opcontrol() {
     stoptoggle();
     }
   }
-  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
-    intaketoggle();
-      intakeSpeed = 200;
+      else {
+      intaketoggle();
+      intakeSpeed = 600;
+     if (middle == false) {
+      middlegoalscorer();
+     }
+        
+        if (!stop) {
+    stoptoggle();
+    }
+}
+ 
+  }
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      if(intakeOn && intakeSpeed == 100 && middle == true && stop){
+        intaketoggle();
+      }
+      else if(intakeOn){
+      intaketoggle();
+      intaketoggle();
+      intakeSpeed = 100;
        if (middle == false) {
         middlegoalscorer();
     }
     if (!stop) {
     stoptoggle();
+    }
   }
+      else {
+      intaketoggle();
+      intakeSpeed = 100;
+     if (middle == false) {
+      middlegoalscorer();
+     }
+        
+        if (!stop) {
+    stoptoggle();
+    }
+}
+ 
+  }
+
   
   if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-    intaketoggle();
-    if (stop) {
+    if(!stop){
+        intaketoggle();
+      }
+    else if(intakeOn){
+      intaketoggle();
+      intaketoggle();
+    if (!stop) {
     stoptoggle();
     }
   }
+    else{
+      intaketoggle();
+      if (stop) {
+    stoptoggle();
+    }
+    }
+  }
+     
   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+    if(intakeOn && intakeSpeed == -600 && middle == false && stop){
+        intaketoggle();
+      }
+    else if(intakeOn){
+      intaketoggle();
       intaketoggle();
       intakeSpeed = -600;
       if (middle == true) {
         middlegoalscorer();
-    
     }
     if (!stop) {
     stoptoggle();
+    }
+
+  }
+    else {
+    intaketoggle();
+    intakeSpeed = -600;
+      if (middle == true) {
+        middlegoalscorer();
+    }
+    if (!stop) {
+    stoptoggle();
+    }
     }
   }
 
@@ -345,5 +404,4 @@ void opcontrol() {
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
-}
 }
