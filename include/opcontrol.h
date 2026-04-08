@@ -26,7 +26,13 @@ extern void loadRun();
 extern ez::Piston descore;
 extern bool push;
 extern void descoreRun();
-
+extern void doubleclick();
+extern int now;
+extern int lastCLickTime;
+extern int clickDelay;
+extern ez::Piston stopper;
+extern bool stop;
+extern void stoptoggle();
 
 
 

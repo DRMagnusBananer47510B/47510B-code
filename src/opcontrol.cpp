@@ -9,7 +9,15 @@ bool hoodon = false;
 int intakeSpeed = 600;
 bool load = false;
 bool middle = true;
+int now = 0;
+int clickDelay = 300;
 int hoodspeed = 600;
+bool stop = false;
+ez::Piston stopper('b');
+void stoptoggle(){ 
+    stop = !stop;
+    stopper.set(stop);
+}
 ez::Piston middlegoal('a');
 ez::Piston descore('c');
 bool push = false;
