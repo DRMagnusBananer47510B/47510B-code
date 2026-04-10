@@ -1,6 +1,7 @@
 #include "main.h"
 
 #include "EZ-Template/util.hpp"
+#include "auton_selector.hpp"
 #include "autons.hpp"
 #include "opcontrol.h"
 #include "pros/llemu.hpp"
@@ -63,27 +64,9 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
-  // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add({
-      {"Drive\n\nDrive forward and come back", drive_notexample},
-      {"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
-      {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-      {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
-      {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
-      {"Combine all 3 movements", combining_movements},
-      {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
-      {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
-      {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
-      {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-      {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
-  });
-
   // Initialize chassis and auton selector
   chassis.initialize();
-  ez::as::initialize();
+ // auton_selector_initialize();
   pros::Task intakeTask(intakeRun);
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
@@ -93,9 +76,9 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {
-  // . . .
-}
+// void disabled() {
+//   auton_selector_show();
+// }
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -106,9 +89,9 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-  // . . .
-}
+//void competition_initialize() {
+  //auton_selector_show();
+//}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -138,10 +121,8 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
-   turn_example();
-  // drive_notexample();
-  //drive_and_turn();
-  // ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+  
+  //auton_selector_run_selected();
 }
 
 /**
@@ -162,39 +143,44 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
  * Adding new pages here will let you view them during user control or autonomous
  * and will help you debug problems you're having
  */
-void ez_screen_task() {
-  while (true) {
-    // Only run this when not connected to a competition switch
-    if (!pros::competition::is_connected()) {
-      // Blank page for odom debugging
-      if (chassis.odom_enabled() && !chassis.pid_tuner_enabled()) {
-        // If we're on the first blank page...
-        if (ez::as::page_blank_is_on(0)) {
-          // Display X, Y, and Theta
-          ez::screen_print("x: " + util::to_string_with_precision(chassis.odom_x_get()) +
-                               "\ny: " + util::to_string_with_precision(chassis.odom_y_get()) +
-                               "\na: " + util::to_string_with_precision(chassis.odom_theta_get()),
-                           1);  // Don't override the top Page line
+// void ez_screen_task() {
+//   while (true) {
+//     if (auton_selector_is_active()) {
+//       pros::delay(ez::util::DELAY_TIME);
+//       continue;
+//     }
 
-          // Display all trackers that are being used
-          screen_print_tracker(chassis.odom_tracker_left, "l", 4);
-          screen_print_tracker(chassis.odom_tracker_right, "r", 5);
-          screen_print_tracker(chassis.odom_tracker_back, "b", 6);
-          screen_print_tracker(chassis.odom_tracker_front, "f", 7);
-        }
-      }
-    }
+//     // Only run this when not connected to a competition switch
+//     if (!pros::competition::is_connected()) {
+//       // Blank page for odom debugging
+//       if (chassis.odom_enabled() && !chassis.pid_tuner_enabled()) {
+//         // If we're on the first blank page...
+//         if (ez::as::page_blank_is_on(0)) {
+//           // Display X, Y, and Theta
+//           ez::screen_print("x: " + util::to_string_with_precision(chassis.odom_x_get()) +
+//                                "\ny: " + util::to_string_with_precision(chassis.odom_y_get()) +
+//                                "\na: " + util::to_string_with_precision(chassis.odom_theta_get()),
+//                            1);  // Don't override the top Page line
 
-    // Remove all blank pages when connected to a comp switch
-    else {
-      if (ez::as::page_blank_amount() > 0)
-        ez::as::page_blank_remove_all();
-    }
+//           // Display all trackers that are being used
+//           screen_print_tracker(chassis.odom_tracker_left, "l", 4);
+//           screen_print_tracker(chassis.odom_tracker_right, "r", 5);
+//           screen_print_tracker(chassis.odom_tracker_back, "b", 6);
+//           screen_print_tracker(chassis.odom_tracker_front, "f", 7);
+//         }
+//       }
+//     }
 
-    pros::delay(ez::util::DELAY_TIME);
-  }
-}
-pros::Task ezScreenTask(ez_screen_task);
+//     // Remove all blank pages when connected to a comp switch
+//     else {
+//       if (ez::as::page_blank_amount() > 0)
+//         ez::as::page_blank_remove_all();
+//     }
+
+//     pros::delay(ez::util::DELAY_TIME);
+//   }
+// }
+// pros::Task ezScreenTask(ez_screen_task);
 
 /**
  * Gives you some extras to run in your opcontrol:
@@ -342,7 +328,7 @@ void opcontrol() {
     else if(intakeOn){
       intaketoggle();
       intaketoggle();
-    if (!stop) {
+    if (stop) {
     stoptoggle();
     }
   }
