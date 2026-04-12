@@ -21,7 +21,7 @@ ez::Drive chassis(
 
     5,     // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    480);  // Wheel RPM = cartridge * (motor gear / wheel gear)
+    540);  // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -121,7 +121,7 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
-  
+  drive_notexample();
   //auton_selector_run_selected();
 }
 
@@ -234,6 +234,7 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+ descore.set(false);
  middlegoal.set(true);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 

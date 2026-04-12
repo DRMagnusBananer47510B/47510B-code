@@ -8,7 +8,7 @@ bool intakeOn = false;
 bool hoodon = false;
 int intakeSpeed = 600;
 bool load = false;
-bool middle = false;
+bool middle = true;
 int now = 0;
 int clickDelay = 300;
 int hoodspeed = 600;
@@ -20,7 +20,7 @@ void stoptoggle(){
 }
 ez::Piston middlegoal('a');
 ez::Piston descore('c');
-bool push = false;
+bool push = true;
 
 ez::Piston loader ('e');
 ez::PID intakePID(1,0,0);

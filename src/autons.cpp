@@ -82,7 +82,7 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(18, 0, 210.0);             // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(15, 0, 210.0);             // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(15.0, 1, 20.0);          // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(6.50, 0.20, 52.50, 15.0);   // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
@@ -119,9 +119,32 @@ void default_constants() {
 // Drive Example
 ///
 void drive_notexample() {
-  chassis.pid_drive_set(48_in, DRIVE_SPEED, true);
-}
+  intaketoggle();
+stoptoggle();
+chassis.pid_drive_set(27_in, 127, false);
+  chassis.pid_wait_quick();
+chassis.pid_turn_set(65_deg, 80);
+                 
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(-20_in, 127, false);
+stoptoggle();
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(49.1_in, 127, false);
+stoptoggle();
+middlegoalscorer();
+  chassis.pid_wait_quick();
+chassis.pid_turn_set(45_deg, 80);
+loadRun();
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(18.4_in, 127, false);
+pros::delay(500);
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(-38.28_in, 127, false);
+stoptoggle();
+  chassis.pid_wait_quick();
 
+
+}
 ///
 // Turn Example
 ///
