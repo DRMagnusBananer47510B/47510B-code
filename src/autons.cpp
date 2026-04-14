@@ -92,7 +92,7 @@ void default_constants() {
   // Exit conditions
   chassis.pid_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
   chassis.pid_swing_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
-  chassis.pid_drive_exit_condition_set(90_ms, 1_in, 250_ms, 3_in, 500_ms, 500_ms);
+  chassis.pid_drive_exit_condition_set(90_ms, 2.5_in, 250_ms, 3_in, 500_ms, 500_ms);
   chassis.pid_odom_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 750_ms);
   chassis.pid_odom_drive_exit_condition_set(90_ms, 1_in, 250_ms, 3_in, 500_ms, 750_ms);
   chassis.pid_turn_chain_constant_set(3_deg);
@@ -119,30 +119,48 @@ void default_constants() {
 // Drive Example
 ///
 void drive_notexample() {
+   descoreRun(); 
   intaketoggle();
+  middlegoalscorer();
+chassis.pid_drive_set(14_in, 127, false);
+  chassis.pid_wait_quick_chain();
+  
+chassis.pid_drive_set(10.75_in, 80, false);
+  chassis.pid_wait_quick_chain();
+chassis.pid_turn_set(67_deg, 80);          
+  chassis.pid_wait_quick_chain();
+  middlegoalscorer();
+  intakeSpeed = 300;
+  
+chassis.pid_drive_set(-19.5_in, 127, false);
+pros::delay(500);
 stoptoggle();
-chassis.pid_drive_set(27_in, 127, false);
-  chassis.pid_wait_quick();
-chassis.pid_turn_set(65_deg, 80);
-                 
-  chassis.pid_wait_quick();
-chassis.pid_drive_set(-20_in, 127, false);
-stoptoggle();
-  chassis.pid_wait_quick();
-chassis.pid_drive_set(49.1_in, 127, false);
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(55.25_in, 127, false);
 stoptoggle();
 middlegoalscorer();
-  chassis.pid_wait_quick();
-chassis.pid_turn_set(45_deg, 80);
+  chassis.pid_wait_quick_chain();
+chassis.pid_turn_relative_set(-45_deg, 80);
 loadRun();
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(9.75_in, 127, false);
+pros::delay(50);
   chassis.pid_wait_quick();
-chassis.pid_drive_set(18.4_in, 127, false);
-pros::delay(500);
-  chassis.pid_wait_quick();
-chassis.pid_drive_set(-38.28_in, 127, false);
+chassis.pid_drive_set(-33_in, 127, false);
+pros::delay(300);
 stoptoggle();
-  chassis.pid_wait_quick();
-
+pros::delay(300);
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(10_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(90_deg, 108);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-7_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(-90_deg, 108);
+  descoreRun();
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-40_in,127);
 
 }
 ///
