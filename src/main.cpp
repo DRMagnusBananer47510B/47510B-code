@@ -121,7 +121,8 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
-  drive_notexample();
+  //drive_notexample();
+  turn_example();
   //auton_selector_run_selected();
 }
 
@@ -235,18 +236,18 @@ void ez_template_extras() {
  */
 void opcontrol() {
  descore.set(false);
- middlegoal.set(true);
+ middlegoal.set(false);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if(intakeOn && intakeSpeed == 600 && middle == false && stop){
+      if(intakeOn && intakeSpeed == 600 && middle == true && stop){
         intaketoggle();
       }
       else if(intakeOn ){
         intaketoggle();
         intaketoggle();
-       if (middle == true) {
+       if (middle == false) {
         middlegoalscorer();
     }
      if (!stop) {
@@ -255,7 +256,7 @@ void opcontrol() {
   }
       else {
       intaketoggle();
-     if (middle == true) {
+     if (middle == false) {
         middlegoalscorer();
     }
      if (!stop) {
@@ -265,14 +266,14 @@ void opcontrol() {
       
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      if(intakeOn && middle == true && intakeSpeed == 600 && stop){
+      if(intakeOn && middle == false && intakeSpeed == 600 && stop){
         intaketoggle();
       }
       else if(intakeOn){
       intaketoggle();
       intaketoggle();
       intakeSpeed = 600;
-       if (middle == false) {
+       if (middle == true) {
         middlegoalscorer();
     }
     if (!stop) {
@@ -282,7 +283,7 @@ void opcontrol() {
       else {
       intaketoggle();
       intakeSpeed = 600;
-     if (middle == false) {
+     if (middle == true) {
       middlegoalscorer();
      }
         
@@ -293,14 +294,14 @@ void opcontrol() {
  
   }
   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-      if(intakeOn && intakeSpeed == 100 && middle == true && stop){
+      if(intakeOn && intakeSpeed == 100 && middle == false && stop){
         intaketoggle();
       }
       else if(intakeOn){
       intaketoggle();
       intaketoggle();
-      intakeSpeed = 100;
-       if (middle == false) {
+      intakeSpeed = 200;
+       if (middle == true) {
         middlegoalscorer();
     }
     if (!stop) {
@@ -310,7 +311,7 @@ void opcontrol() {
       else {
       intaketoggle();
       intakeSpeed = 100;
-     if (middle == false) {
+     if (middle == true) {
       middlegoalscorer();
      }
         
@@ -342,14 +343,14 @@ void opcontrol() {
   }
      
   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-    if(intakeOn && intakeSpeed == -600 && middle == false && stop){
+    if(intakeOn && intakeSpeed == -600 && middle == true && stop){
         intaketoggle();
       }
     else if(intakeOn){
       intaketoggle();
       intaketoggle();
       intakeSpeed = -600;
-      if (middle == true) {
+      if (middle == false) {
         middlegoalscorer();
     }
     if (!stop) {
@@ -360,7 +361,7 @@ void opcontrol() {
     else {
     intaketoggle();
     intakeSpeed = -600;
-      if (middle == true) {
+      if (middle == false) {
         middlegoalscorer();
     }
     if (!stop) {

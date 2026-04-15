@@ -121,44 +121,42 @@ void default_constants() {
 void drive_notexample() {
    descoreRun(); 
   intaketoggle();
-  middlegoalscorer();
-chassis.pid_drive_set(14_in, 127, false);
+ 
+chassis.pid_drive_set(25_in, 127, false);
   chassis.pid_wait_quick_chain();
   
-chassis.pid_drive_set(10.75_in, 80, false);
+  chassis.pid_turn_set(67_deg, 80);          
   chassis.pid_wait_quick_chain();
-chassis.pid_turn_set(67_deg, 80);          
-  chassis.pid_wait_quick_chain();
-  middlegoalscorer();
-  intakeSpeed = 300;
   
-chassis.pid_drive_set(-19.5_in, 127, false);
+  intakeSpeed = 100;
+  
+chassis.pid_drive_set(-20_in, 127, false);
 pros::delay(500);
 stoptoggle();
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(55.25_in, 127, false);
+chassis.pid_drive_set(54.25_in, 127, false);
 stoptoggle();
 middlegoalscorer();
   chassis.pid_wait_quick_chain();
 chassis.pid_turn_relative_set(-45_deg, 80);
+intakeSpeed = 600;
 loadRun();
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(9.75_in, 127, false);
-pros::delay(50);
-  chassis.pid_wait_quick();
+chassis.pid_drive_set(7_in, 127, false);
+  chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(-33_in, 127, false);
-pros::delay(300);
+pros::delay(450);
 stoptoggle();
-pros::delay(300);
+
   chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(10_in,127);
   chassis.pid_wait_quick_chain();
   chassis.pid_turn_relative_set(90_deg, 108);
   chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(-7_in,127);
+  chassis.pid_drive_set(-7.5_in,127);
   chassis.pid_wait_quick_chain();
   chassis.pid_turn_relative_set(-90_deg, 108);
-  descoreRun();
+  
   chassis.pid_wait_quick_chain();
   chassis.pid_drive_set(-40_in,127);
 
@@ -167,6 +165,39 @@ chassis.pid_drive_set(10_in,127);
 // Turn Example
 ///
 void turn_example() {
+    descoreRun(); 
+  intaketoggle();
+ 
+chassis.pid_drive_set(24.75_in, 127, false);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(67_deg, 80);          
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(33_in, 127, false);
+
+middlegoalscorer();
+  chassis.pid_wait_quick_chain();
+chassis.pid_turn_relative_set(-45_deg, 80);
+intakeSpeed = 600;
+loadRun();
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(7_in, 127, false);
+pros::delay(100);
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(-33_in, 127, false);
+pros::delay(450);
+stoptoggle();
+
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(10_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(90_deg, 108);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-7.5_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(-90_deg, 108);
+  
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-35_in,90);
 
 }
 void drive_and_turn() {
