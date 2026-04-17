@@ -59,16 +59,16 @@ void drive_notexample() {
    descoreRun(); 
   intaketoggle();
  
-chassis.pid_drive_set(26.5_in, 127, false);
+chassis.pid_drive_set(25_in, 127, false);
   chassis.pid_wait_quick_chain();
   
   chassis.pid_turn_set(67_deg, 80);          
   chassis.pid_wait_quick_chain();
   
-  intakeSpeed = 100;
+  intakeSpeed = 200;
   
 chassis.pid_drive_set(-18.75_in, 127, false);
-pros::delay(500);
+pros::delay(200);
 stoptoggle();
   chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(52_in, 127, false);
@@ -78,17 +78,17 @@ middlegoalscorer();
 chassis.pid_turn_relative_set(-45_deg, 80);
 intakeSpeed = 600;
 loadRun();
-  chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(10_in, 127, false);
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(9_in, 127, false);
   chassis.pid_wait_quick_chain();
   chassis.pid_turn_relative_set(-3_deg, 127);
   chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(-33_in, 127, false);
-pros::delay(450);
+pros::delay(100);
 stoptoggle();
 
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(10_in,127);
+chassis.pid_drive_set(4_in,127);
   chassis.pid_wait_quick_chain();
   chassis.pid_turn_relative_set(90_deg, 108);
   chassis.pid_wait_quick_chain();
@@ -119,8 +119,8 @@ chassis.pid_turn_relative_set(-45_deg, 80);
 intakeSpeed = 600;
 loadRun();
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(10.5_in, 127, false);
-pros::delay(300);
+chassis.pid_drive_set(12.25_in, 127, false);
+pros::delay(200);
   chassis.pid_wait_quick();
 chassis.pid_drive_set(-33_in, 127, false);
 pros::delay(450);
@@ -145,30 +145,31 @@ descoreRun();
  
 chassis.pid_drive_set(26.5_in, 127, false);
   chassis.pid_wait_quick_chain();
-  chassis.pid_turn_set(67_deg, 80);          
+  chassis.pid_turn_set(-67_deg, 80);          
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(33_in, 127, false);
+chassis.pid_drive_set(31_in, 127, false);
 
 middlegoalscorer();
   chassis.pid_wait_quick_chain();
-chassis.pid_turn_relative_set(-45_deg, 80);
+chassis.pid_turn_relative_set(45_deg, 80);
 intakeSpeed = 600;
 loadRun();
   chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(10.5_in, 127, false);
-pros::delay(300);
+chassis.pid_drive_set(12.25_in, 127, false);
+pros::delay(200);
   chassis.pid_wait_quick();
-chassis.pid_drive_set(-33_in, 127, false);
-pros::delay(450);
+chassis.pid_drive_set(-34_in, 127, false);
+pros::delay(550);
 stoptoggle();
+pros::delay(300);
    chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(10_in,127);
   chassis.pid_wait_quick_chain();
-  chassis.pid_turn_relative_set(-90_deg, 108);
+  chassis.pid_turn_relative_set(90_deg, 108);
   chassis.pid_wait_quick_chain();
   chassis.pid_drive_set(-7.5_in,127);
   chassis.pid_wait_quick_chain();
-  chassis.pid_turn_relative_set(90_deg, 108);
+  chassis.pid_turn_relative_set(-90_deg, 108);
   
   chassis.pid_wait_quick_chain();
   chassis.pid_drive_set(-35_in,90);
