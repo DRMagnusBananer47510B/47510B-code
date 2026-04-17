@@ -4,69 +4,6 @@
 #include "pros/rtos.hpp"
 #include "subsystems.hpp"
 
-// const std::vector<AutonEntry>& auton_entries() {
-//   static const std::vector<AutonEntry> entries = {
-//       {"Drive",
-//        "Drive forward and return to the start.",
-//        drive_notexample,
-//        false},
-//       {"Turn",
-//        "Turn in place three times. This is the current default autonomous.",
-//        turn_example,
-//        true},
-//       {"Drive and Turn",
-//        "Drive forward, turn, and return.",
-//        drive_and_turn,
-//        false},
-//       {"Speed Shift",
-//        "Start slow, then open up drive speed once the robot settles.",
-//        wait_until_change_speed,
-//        false},012
-//       {"Swing Turn",
-//        "Trace a smooth S-curve with left and right swing turns.",
-//        swing_example,
-//        false},
-//       {"Motion Chain",
-//        "Blend multiple movements together for a cleaner route.",
-//        motion_chaining,
-//        false},
-//       {"Combined Test",
-//        "Run drive, turn, swing, and reverse in one quick sequence.",
-//        combining_movements,
-//        false},
-//       {"Interference",
-//        "Retry and recover if the robot gets pushed off its path.",
-//        interfered_example,
-//        false},
-//       {"Odom Drive",
-//        "Basic odometry-assisted forward and reverse test.",
-//        odom_drive_example,
-//        false},
-//       {"Pure Pursuit",
-//        "Follow a curved path through waypoints with odometry.",
-//        odom_pure_pursuit_example,
-//        false},
-//       {"PP Wait Until",
-//        "Pure pursuit route with a timed action trigger mid-path.",
-//        odom_pure_pursuit_wait_until_example,
-//        false},
-//       {"Boomerang",
-//        "Drive to a pose and return with boomerang pathing.",
-//        odom_boomerang_example,
-//        false},
-//       {"Boomerang PP",
-//        "Combine boomerang and pure pursuit in a single route.",
-//        odom_boomerang_injected_pure_pursuit_example,
-//        false},
-//       {"Measure Offsets",
-//        "Spin repeatedly and calculate tracking wheel offsets.",
-//        measure_offsets,
-//        false},
-//   };
-
-//   return entries;
-// }
-
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -203,7 +140,39 @@ chassis.pid_drive_set(10_in,127);
 
 }
 void drive_and_turn() {
+descoreRun(); 
+  intaketoggle();
  
+chassis.pid_drive_set(26.5_in, 127, false);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(67_deg, 80);          
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(33_in, 127, false);
+
+middlegoalscorer();
+  chassis.pid_wait_quick_chain();
+chassis.pid_turn_relative_set(-45_deg, 80);
+intakeSpeed = 600;
+loadRun();
+  chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(10.5_in, 127, false);
+pros::delay(300);
+  chassis.pid_wait_quick();
+chassis.pid_drive_set(-33_in, 127, false);
+pros::delay(450);
+stoptoggle();
+   chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(10_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(-90_deg, 108);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-7.5_in,127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_relative_set(90_deg, 108);
+  
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-35_in,90);
+
 }
 
 ///

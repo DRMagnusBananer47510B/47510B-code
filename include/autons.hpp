@@ -1,16 +1,5 @@
 #pragma once
 
-#include <vector>
-
-struct AutonEntry {
-  const char* name;
-  const char* description;
-  void (*routine)();
-  bool is_default;
-};
-
-const std::vector<AutonEntry>& auton_entries();
-
 void default_constants();
 
 void drive_notexample();
