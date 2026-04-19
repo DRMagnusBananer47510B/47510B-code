@@ -121,9 +121,9 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
-  drive_notexample();
+  //drive_notexample();
   //turn_example();
-  //drive_and_turn();
+  drive_and_turn();
   //auton_selector_run_selected();
 }
 
