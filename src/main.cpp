@@ -16,12 +16,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-11, -12, -13},  // Left Chassis Ports (negative port will reverse it!)
-    {10, 3, 2},       // Right Chassis Ports (negative port will reverse it!)
+    {-11, -20},  // Left Chassis Ports (negative port will reverse it!)
+    {10, 1},     // Right Chassis Ports (negative port will reverse it!)
 
     5,     // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    540);  // Wheel RPM = cartridge * (motor gear / wheel gear)
+    450);  // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -66,7 +66,7 @@ void initialize() {
 
   // Initialize chassis and auton selector
   chassis.initialize();
- // auton_selector_initialize();
+  // auton_selector_initialize();
   pros::Task intakeTask(intakeRun);
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
@@ -89,8 +89,8 @@ void initialize() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-//void competition_initialize() {
-  //auton_selector_show();
+// void competition_initialize() {
+// auton_selector_show();
 //}
 
 /**
@@ -121,10 +121,11 @@ void autonomous() {
   //- avoid throwing momentum around (super harsh turns, like in the example below)
   // You can do cool curved motions, but you have to give your robot the best chance
   // to be consistent
-  //drive_notexample();
-  //turn_example();
+  // drive_notexample();
+  // turn_example();
   drive_and_turn();
-  //auton_selector_run_selected();
+  // auton_selector_run_selected();
+  // wait_until_change_speed();
 }
 
 /**
@@ -236,161 +237,33 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
- descore.set(false);
- middlegoal.set(false);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-
+  chassis.opcontrol_arcade_standard(ez::SPLIT);
   while (true) {
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if(intakeOn && intakeSpeed == 600 && middle == true && stop){
-        intaketoggle();
-      }
-      else if(intakeOn ){
-        intaketoggle();
-        intaketoggle();
-       if (middle == false) {
-        middlegoalscorer();
+    liftRun();
+    if (master.get_digital_new_press(DIGITAL_X)) {
+      clawflipRun();
     }
-     if (!stop) {
-    stoptoggle();
+    if (master.get_digital_new_press(DIGITAL_Y)) {
+      clawtiltRun();
     }
-  }
-      else {
-      intaketoggle();
-     if (middle == false) {
-        middlegoalscorer();
-    }
-     if (!stop) {
-    stoptoggle();
-    }
-  }
-      
-    }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      if(intakeOn && middle == false && intakeSpeed == 600 && stop){
-        intaketoggle();
-      }
-      else if(intakeOn){
-      intaketoggle();
-      intaketoggle();
-      intakeSpeed = 600;
-       if (middle == true) {
-        middlegoalscorer();
-    }
-    if (!stop) {
-    stoptoggle();
-    }
-  }
-      else {
-      intaketoggle();
-      intakeSpeed = 600;
-     if (middle == true) {
-      middlegoalscorer();
-     }
-        
-        if (!stop) {
-    stoptoggle();
-    }
-}
- 
-  }
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-      if(intakeOn && intakeSpeed == 100 && middle == false && stop){
-        intaketoggle();
-      }
-      else if(intakeOn){
-      intaketoggle();
-      intaketoggle();
-      intakeSpeed = 200;
-       if (middle == true) {
-        middlegoalscorer();
-    }
-    if (!stop) {
-    stoptoggle();
-    }
-  }
-      else {
-      intaketoggle();
-      intakeSpeed = 100;
-     if (middle == true) {
-      middlegoalscorer();
-     }
-        
-        if (!stop) {
-    stoptoggle();
-    }
-}
- 
-  }
-
-  
-  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-    if(!stop){
-        intaketoggle();
-      }
-    else if(intakeOn){
-      intaketoggle();
-      intaketoggle();
-    if (stop) {
-    stoptoggle();
-    }
-  }
-    else{
-      intaketoggle();
-      if (stop) {
-    stoptoggle();
-    }
-    }
-  }
-     
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-    if(intakeOn && intakeSpeed == -600 && middle == true && stop){
-        intaketoggle();
-      }
-    else if(intakeOn){
-      intaketoggle();
-      intaketoggle();
-      intakeSpeed = -600;
-      if (middle == false) {
-        middlegoalscorer();
-    }
-    if (!stop) {
-    stoptoggle();
-    }
-
-  }
-    else {
-    intaketoggle();
-    intakeSpeed = -600;
-      if (middle == false) {
-        middlegoalscorer();
-    }
-    if (!stop) {
-    stoptoggle();
-    }
+    if (master.get_digital_new_press(DIGITAL_B)) {
+      clawtoggle();
     }
   }
 
-    // Gives you some extras to make EZ-Template ezier
-    // ez_template_extras();
+  // Gives you some extras to make EZ-Template ezier
+  // ez_template_extras();;
 
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-      loadRun();
-    }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-      descoreRun();
-    }
+  // chassis.opcontrol_tank();  // Tank control
+  // Standard split arcade
+  // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
+  // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
+  // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
-    // chassis.opcontrol_tank();  // Tank control
-    chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
-    // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
-    // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
-    // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
+  // . . .
+  // Put more user control code here!
+  // . . .
 
-    // . . .
-    // Put more user control code here!
-    // . . .
-
-    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-  }
+  pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
 }
